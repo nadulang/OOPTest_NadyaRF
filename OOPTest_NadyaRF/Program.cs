@@ -6,7 +6,8 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
-
+using static OOPTest_NadyaRF.LogClass;
+using OOPTest_NadyaRF;
 
 namespace OOP_Test_NadyaRF
 {
@@ -22,28 +23,43 @@ namespace OOP_Test_NadyaRF
 
 
             string message = Cipher.encrypt("ini tulisan rahasia", "p4$$w0rd");
-             Console.WriteLine("Anyone without password can't read this message");
-             Console.WriteLine("");
+            Console.WriteLine("Anyone without password can't read this message");
+            Console.WriteLine("");
 
-             Console.WriteLine("Your decrypted string is:");
-             string decryptedstring = Cipher.decrypt(message, "p4$$w0rd", "p4$$w0rd");
-             Console.WriteLine(decryptedstring); 
+            Console.WriteLine("Your decrypted string is:");
+            string decryptedstring = Cipher.decrypt(message, "p4$$w0rd", "p4$$w0rd");
+            Console.WriteLine(decryptedstring);
+
+            Authentication.login("root", "secret");
+            Authentication.validate("root", "secret");
+            Authentication._user();
+            Authentication.check();
+            Authentication.guest();
+            Authentication.lastLogin();
+            Authentication.logout();
+            Authentication.guest();
+
+            Console.WriteLine("Authentication is done.");
+            Console.WriteLine("");
+
+            LogClass.Log_1.SaveAllLog();
+            Console.WriteLine("Log is done. See file App.Log to know the result");
+            Console.WriteLine("");
 
 
-
-           Cart cartbaru = new Cart();
+            Cart cartbaru = new Cart();
             // Do some chainings
             cartbaru.AddItem(2, 10000, 2)
                     .AddItem(3, 10000, 3)
                     .AddItem(4, 10000, 4)
                     .RemoveItem(2)
                     .AddDiscount(50);
-            Console.WriteLine($"Total Items: {Cart.TotalItems()}");
-            Console.WriteLine($"Total Quantity: {Cart.TotalQuantity()}");
-            Console.WriteLine($"Total Price: {Cart.TotalPrice()}");
-            Cart.ShowAllItems();
-            Cart.Checkout();
-            
+             Console.WriteLine($"Total Items: {Cart.TotalItems()}");
+             Console.WriteLine($"Total Quantity: {Cart.TotalQuantity()}");
+             Console.WriteLine($"Total Price: {Cart.TotalPrice()}");
+             Cart.ShowAllItems();
+             Cart.Checkout(); 
+
 
 
 
@@ -203,9 +219,115 @@ namespace OOP_Test_NadyaRF
 
     }
 
-    class Auth
+    class Authentication
     {
-    }
+		public static string user = "root";
+		public static string password = "secret";
+		public static string id = "rx-178";
+		public static int condition = 0;
+		public static DateTime loginTime = new DateTime();
+
+
+
+		public static void login(string User, string Password)
+		{
+			if (User == user && Password == password)
+			{
+				Console.WriteLine("Logged in");
+				Log_1.PopulateLog("Logged in");
+				condition = 1;
+				loginTime = DateTime.Now;
+			}
+			else
+			{
+				Console.WriteLine("Wrong password or username");
+				Log_1.PopulateLog("unknown tried to log in");
+			}
+		}
+
+		public static void validate(string User, string Password)
+		{
+			if (User == user && Password == password && condition == 1)
+			{
+				Console.WriteLine("Already Logged in");
+				Log_1.PopulateLog("user validated");
+			}
+			else
+			{
+				Console.WriteLine("Log in first");
+				Log_1.PopulateLog("unknown tried to validate");
+			}
+		}
+
+		public static void ID()
+		{
+			if (condition == 1)
+			{
+				Console.WriteLine(id);
+				Log_1.PopulateLog("user request id");
+			}
+			else
+			{
+				Console.WriteLine("log in first");
+				Log_1.PopulateLog("unknown tried to request id");
+			}
+		}
+
+		public static void logout()
+		{
+			condition = 0;
+			Console.WriteLine("logged out");
+			Log_1.PopulateLog($"{user} logged out");
+		}
+
+		public static void _user()
+		{
+			if (condition == 1)
+			{
+				Console.WriteLine(user[0]);
+				Log_1.PopulateLog($"{user} shows username");
+			}
+			else
+			{
+				Console.WriteLine("log in first");
+			}
+		}
+
+		public static void check()
+		{
+			if (condition == 1)
+			{
+				Console.WriteLine(true);
+				Log_1.PopulateLog($"{user} is logged in");
+			}
+			else
+			{
+				Console.WriteLine(false);
+				Log_1.PopulateLog("unknown tried to check");
+			}
+		}
+		public static void guest()
+		{
+			if (condition == 0)
+			{
+				Console.WriteLine(true);
+				Log_1.PopulateLog("guest is user");
+			}
+			else
+			{
+				Console.WriteLine(false);
+				Log_1.PopulateLog($"{user} is logged in");
+			}
+		}
+		public static void lastLogin()
+		{
+			Console.WriteLine(loginTime);
+			Log_1.PopulateLog($"{user} last log in");
+		}
+	}
+
+
+    
 
 
     public interface ICart
