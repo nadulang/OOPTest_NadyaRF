@@ -5,6 +5,8 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Linq;
+
+
 using System.Collections.Generic;
 using static OOPTest_NadyaRF.LogClass;
 using OOPTest_NadyaRF;
@@ -19,7 +21,6 @@ namespace OOP_Test_NadyaRF
             Hash.sha1("secret");
             Hash.sha256("secret");
             Hash.sha512("secret");
-
 
 
             string message = Cipher.encrypt("ini tulisan rahasia", "p4$$w0rd");
@@ -338,7 +339,7 @@ namespace OOP_Test_NadyaRF
     }
     public class Cart : ICart
     {
-        static string cartPath = @"/Users/gigaming/Projects/OOPTest_NadyaRF/OOPTest_NadyaRF/carts.txt";
+        static string cartPath = @"/Users/gigaming/Documents/Nadya RF/Bootcamp_Refactory/OOPTest_NadyaRF/OOPTest_NadyaRF/carts.txt";
         public int Item_id { get; set; }
         public int Price { get; set; }
         public int Quantity { get; set; }
